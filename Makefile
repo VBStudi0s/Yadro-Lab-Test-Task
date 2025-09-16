@@ -1,2 +1,5 @@
 docker-test-default:
-	@docker-compose run --rm target
+	@docker-compose up
+
+docker-test-stop:
+	@docker-compose down

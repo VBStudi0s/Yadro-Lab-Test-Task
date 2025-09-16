@@ -3,7 +3,12 @@ version: "2.3"
 services:
   target:
     container_name: service-target
-    build: ./target
+    build: 
+      context: ./target
+      args:
+        - SSH_TARGET_USER=${SSH_TARGET_USER}
+        - SSH_TARGET_PASSWORD=${SSH_TARGET_PASSWORD}
     ports:
       - "52022:22"
+      - "8080:80"
   
