@@ -1,1 +1,9 @@
 version: "2.3"
+
+services:
+  target:
+    container_name: service-target
+    build: ./target
+    ports:
+      - "52022:22"
+  
