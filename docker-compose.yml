@@ -10,11 +10,15 @@ services:
         - SSH_TARGET_PASSWORD=${SSH_TARGET_PASSWORD}
     ports:
       - "52022:22"
+      - "8080:80"
 
   agent:
     container_name: service-agent
     build: 
       context: ./agent
+    environment:
+      - SSH_TARGET_USER=${SSH_TARGET_USER}
+      - SSH_TARGET_PASSWORD=${SSH_TARGET_PASSWORD}
     depends_on:
       - target
   
