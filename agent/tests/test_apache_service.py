@@ -5,9 +5,8 @@ from .utils import exec_command_ssh, request_http
 
 
 def test_web_server_running(ssh_connect):
-    exit_code, output, err =exec_command_ssh(ssh_connect, "pgrep -xl apache2")
+    output = exec_command_ssh(ssh_connect, "pgrep -xl apache2")
 
-    assert exit_code == 0, f"SSH command failed: {err}"
     assert "apache2" in output
  
 

@@ -8,9 +8,7 @@ from .utils import exec_command_ssh
 def get_last_errors(ssh_connect, minutes=5):
     """Reads Apache error.log file and parses it trying to find errors within some minutes"""
 
-    exit_code, logs, err = exec_command_ssh(ssh_connect, "tail -n 200 /var/log/apache2/error.log")
-
-    assert exit_code == 0, f"SSH command failed: {err}"
+    logs = exec_command_ssh(ssh_connect, "tail -n 200 /var/log/apache2/error.log")
     cutoff = datetime.datetime.now() - datetime.timedelta(minutes=minutes)
 
     found_errors = []

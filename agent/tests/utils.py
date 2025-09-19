@@ -10,7 +10,9 @@ def exec_command_ssh(ssh_connect, command):
     output = stdout.read().decode()
     err = stderr.read().decode()
 
-    return exit_code, output, err
+    assert exit_code == 0, f"SSH command failed: {err}"
+
+    return output
 
 def request_http(get_env_vars, page, timeout=10):
     """Requests given page by address specified in get_env_vars"""
@@ -21,6 +23,6 @@ def request_http(get_env_vars, page, timeout=10):
     try:
         resp = requests.get(f"http://{hostname}:{port}/{page}", timeout=timeout)
         return resp
-    except requests.exceptions.RequestException as e:
-        return None, str(e)
+    except:
+        return None
 
