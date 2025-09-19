@@ -1,22 +1,11 @@
 import pytest
 import requests
 
-# from conftest import exec_command_ssh
-
-def exec_command_ssh(ssh_connect, command):
-    stdin, stdout, stderr = ssh_connect.exec_command(command)
-    output = stdout.read().decode()
-
-    return output
-
-def request_http(get_env_vars, page):
-    hostname = get_env_vars["hostname"]
-    port = get_env_vars["http_port"]
-    return requests.get(f"http://{hostname}:{port}/{page}")
+from .utils import exec_command_ssh, request_http
 
 
 def test_web_server_running(ssh_connect):
-    output=exec_command_ssh(ssh_connect, "ps aux | grep apache2")
+    output=exec_command_ssh(ssh_connect, "pgrep -xl apache2")
 
     assert "apache2" in output
  

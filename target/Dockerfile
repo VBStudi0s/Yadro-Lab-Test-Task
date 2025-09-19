@@ -14,4 +14,6 @@ COPY ./index/index.html /var/www/html/index.html
 
 RUN service apache2 restart
 
+RUN chown -R ${SSH_TARGET_USER} /var/log/apache2
+
 CMD service ssh start && apache2ctl -D FOREGROUND
