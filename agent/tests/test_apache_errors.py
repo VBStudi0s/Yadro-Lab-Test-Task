@@ -1,12 +1,15 @@
 import pytest
 import datetime
 import os
+import allure
 
 
+@pytest.mark.apache
 def get_last_errors(exec_command_ssh, minutes=5):
     """Reads Apache error.log file and parses it trying to find errors within some minutes"""
 
-    logs = exec_command_ssh("tail -n 200 /var/log/apache2/error.log")
+    with allure.step("Reading apache error.log file"):
+        logs = exec_command_ssh("tail -n 200 /var/log/apache2/error.log")
     cutoff = datetime.datetime.now() - datetime.timedelta(minutes=minutes)
 
     found_errors = []
@@ -27,19 +30,16 @@ def get_last_errors(exec_command_ssh, minutes=5):
     return found_errors, unparsed_lines
 
 
+@pytest.mark.apache
 def test_apache_last_errors(exec_command_ssh):
     minutes = int(os.getenv("APACHE_ERROR_TIMEOUT", "5"))
     found_errors, unparsed_lines = get_last_errors(exec_command_ssh, minutes=minutes)
 
-    msg = ""
+    with allure.step("Checking error.log output for errors"):
+        msg = ""
+        if found_errors:
+            msg+=f"Found following errors in Apache logs in last {minutes} minutes: \n" + "\n".join(found_errors)
+        if unparsed_lines:
+            msg+=f"\nAlso could not parse following lines: \n" + "\n".join(unparsed_lines)
 
-    if found_errors:
-        msg+=f"Found following errors in Apache logs in last {minutes} minutes: \n" + "\n".join(found_errors)
-    if unparsed_lines:
-        msg+=f"\nAlso could not parse following lines: \n" + "\n".join(unparsed_lines)
-
-    assert not found_errors, msg
-        
-
-
-    
+        assert not found_errors, msg
