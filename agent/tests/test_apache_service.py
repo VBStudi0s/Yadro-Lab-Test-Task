@@ -1,11 +1,11 @@
 import pytest
 import requests
 
-from .utils import exec_command_ssh, request_http
+from .utils import request_http
 
 
-def test_web_server_running(ssh_connect):
-    output = exec_command_ssh(ssh_connect, "pgrep -xl apache2")
+def test_web_server_running(exec_command_ssh):
+    output = exec_command_ssh("pgrep -xl apache2")
 
     assert "apache2" in output
  

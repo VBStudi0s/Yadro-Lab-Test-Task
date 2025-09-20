@@ -2,13 +2,11 @@ import pytest
 import datetime
 import os
 
-from .utils import exec_command_ssh
 
-
-def get_last_errors(ssh_connect, minutes=5):
+def get_last_errors(exec_command_ssh, minutes=5):
     """Reads Apache error.log file and parses it trying to find errors within some minutes"""
 
-    logs = exec_command_ssh(ssh_connect, "tail -n 200 /var/log/apache2/error.log")
+    logs = exec_command_ssh("tail -n 200 /var/log/apache2/error.log")
     cutoff = datetime.datetime.now() - datetime.timedelta(minutes=minutes)
 
     found_errors = []
@@ -29,9 +27,9 @@ def get_last_errors(ssh_connect, minutes=5):
     return found_errors, unparsed_lines
 
 
-def test_apache_last_errors(ssh_connect):
+def test_apache_last_errors(exec_command_ssh):
     minutes = int(os.getenv("APACHE_ERROR_TIMEOUT", "5"))
-    found_errors, unparsed_lines = get_last_errors(ssh_connect, minutes=minutes)
+    found_errors, unparsed_lines = get_last_errors(exec_command_ssh, minutes=minutes)
 
     msg = ""
 

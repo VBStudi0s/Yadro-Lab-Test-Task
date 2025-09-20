@@ -34,3 +34,17 @@ def ssh_connect(request, get_env_vars):
     request.addfinalizer(teardown)
 
     return client
+
+@pytest.fixture
+def exec_command_ssh(ssh_connect):
+    """Executes given command with established SSH connection"""
+    def _exec(command, timeout=10):
+        stdin, stdout, stderr = ssh_connect.exec_command(command, timeout=timeout)
+        exit_code = stdout.channel.recv_exit_status()
+        output = stdout.read().decode()
+        err = stderr.read().decode()
+
+        assert exit_code == 0, f"SSH command failed: {err}"
+
+        return output
+    return _exec
