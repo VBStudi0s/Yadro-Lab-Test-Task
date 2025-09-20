@@ -10,7 +10,6 @@ services:
         - SSH_TARGET_PASSWORD=${SSH_TARGET_PASSWORD}
     ports:
       - "52022:22"
-      - "8080:80"
 
   agent:
     container_name: service-agent
@@ -20,6 +19,8 @@ services:
       - SSH_TARGET_USER=${SSH_TARGET_USER}
       - SSH_TARGET_PASSWORD=${SSH_TARGET_PASSWORD}
       - APACHE_ERROR_TIMEOUT=10
+    ports:
+      - "8080:8080"
     depends_on:
       - target
   

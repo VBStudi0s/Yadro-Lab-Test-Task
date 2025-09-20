@@ -2,6 +2,16 @@ import pytest
 import os
 import paramiko
 
+
+def pytest_configure(config):
+    config.addinivalue_line(
+        "markers", "apache: marks apache server tests"
+    )
+    config.addinivalue_line(
+        "markers", "smoke: marks additional smoke tests"
+    )
+
+
 @pytest.fixture(scope='session')
 def get_env_vars():
     connection_vars = {

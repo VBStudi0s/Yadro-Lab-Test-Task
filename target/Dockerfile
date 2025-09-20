@@ -16,4 +16,7 @@ RUN service apache2 restart
 
 RUN chown -R ${SSH_TARGET_USER} /var/log/apache2
 
+# port for http-requests to request hosted page
+EXPOSE 80
+
 CMD service ssh start && apache2ctl -D FOREGROUND
