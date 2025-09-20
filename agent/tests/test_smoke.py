@@ -30,4 +30,17 @@ def test_tar_package(exec_command_ssh):
     
 def test_ln_package(exec_command_ssh):
     """Tests for ln package"""
-    pass
+
+    # creating files to test
+    exec_command_ssh("echo 'test info' > /tmp/test_file.txt")
+    exec_command_ssh("ln -s /tmp/test_file.txt /tmp/test_ln_link")
+
+    files = exec_command_ssh("ls /tmp")     # checks if link file was created
+    assert "test_ln_link" in files
+
+    fileinfo = exec_command_ssh("ls -l /tmp/test_ln_link")      # checks if created file is a link
+    assert fileinfo[0] == 'l'
+    assert "/tmp/test_file.txt" in fileinfo
+
+    content = exec_command_ssh("cat /tmp/test_ln_link")     # checks its content
+    assert 'test info' in content
