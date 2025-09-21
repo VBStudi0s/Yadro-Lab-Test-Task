@@ -13,7 +13,7 @@ tests:
 
 report:
 	docker compose up -d allure
-	@sleep 2 && (xdg-open http://localhost:${REPORT_HTTP_PORT}/latest-report)
+	@sleep 3 && (xdg-open http://localhost:${REPORT_HTTP_PORT}/latest-report)
 
 status:
 	docker compose ps
