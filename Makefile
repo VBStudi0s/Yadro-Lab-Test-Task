@@ -1,3 +1,8 @@
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
+
 .PHONY: build up stop status report clean
 
 build:
@@ -8,7 +13,7 @@ tests:
 
 report:
 	docker compose up -d allure
-	@sleep 2 && (xdg-open http://localhost:8080/latest-report)
+	@sleep 2 && (xdg-open http://localhost:${REPORT_HTTP_PORT}/latest-report)
 
 status:
 	docker compose ps

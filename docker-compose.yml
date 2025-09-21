@@ -19,9 +19,9 @@ services:
     environment:
       - SSH_TARGET_USER=${SSH_TARGET_USER}
       - SSH_TARGET_PASSWORD=${SSH_TARGET_PASSWORD}
-      - SSH_HOSTNAME=target
-      - SSH_PORT=22
-      - HTTP_PORT=80
+      - SSH_HOSTNAME=${SSH_HOSTNAME:-target}
+      - SSH_PORT=${SSH_PORT:-22}
+      - HTTP_PORT=${HTTP_PORT:-80}
       - APACHE_ERROR_TIMEOUT=10
     volumes:
       - ./reportallure:/app/reportallure
@@ -34,7 +34,7 @@ services:
     container_name: service-allure
     image: frankescobar/allure-docker-service
     ports:
-      - 8080:5050
+      - ${REPORT_HTTP_PORT:-8080}:5050
     volumes:
       - ./reportallure:/app/allure-results
 
