@@ -30,3 +30,10 @@ jobs:
         with:
           name: allure-results
           path: ./reportallure
+
+      - name: Allure Report
+        uses: simple-elf/allure-report-action@v1
+        with:
+          allure_results: ./reportallure
+          allure_report: ./allure-report
+          gh_pages: gh-pages
