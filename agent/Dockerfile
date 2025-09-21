@@ -16,7 +16,5 @@ RUN mkdir -p /app/allure
 RUN wget -O /tmp/allure.deb "https://github.com/allure-framework/allure2/releases/download/2.35.1/allure_2.35.1-1_all.deb" && \
   dpkg -i /tmp/allure.deb
 
-COPY ./entrypoint.sh ./
-
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT ["pytest", "-vv", "-s", "--alluredir=/app/reportallure"]
 

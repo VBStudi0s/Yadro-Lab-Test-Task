@@ -1,12 +1,12 @@
 .PHONY: build up stop status report clean
 
 build:
-	docker compose build
+	docker compose build --no-cache
 
-tests: build
-	docker compose run --rm agent
+tests:
+	docker compose run --build --rm agent
 
-report: tests
+report:
 	docker compose up -d allure
 	@sleep 2 && (xdg-open http://localhost:8080/latest-report)
 
